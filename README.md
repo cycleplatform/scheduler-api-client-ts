@@ -45,7 +45,10 @@ In some cases it may be necessary to override the default URL of `http://env-sch
 ```ts
 import { getClient } from "@cycleplatform/api-client-typescript";
 
-const client = getClient({ accessToken: "<ACCESS TOKEN>", baseUrl: "https://my-scheduler.test.com });
+const client = getClient({
+  accessToken: "<ACCESS TOKEN>",
+  baseUrl: "https://my-scheduler.test.com",
+});
 
 const resp = await client.POST("/v1/functions/{containerId}/claim", {
   params: {
