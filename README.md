@@ -13,51 +13,49 @@ Every request should be typesafe, and only endpoints described in the spec will 
 ### Installation
 
 ```bash
-npm i @cycleplatform/api-client-typescript
+npm i @cycleplatform/scheduler-api-client
 ```
+
+### Getting an Access Key
+
+Access keys can be configured on the scheduler service config in the Portal or through Cycle's main API.
 
 ### Making a Request
 
 ```ts
-import {
-  client,
-  setAuthToken,
-  setHubScope,
-} from "@cycleplatform/api-client-typescript";
+import { getClient } from "@cycleplatform/api-client-typescript";
 
-setAuthToken("secret_MY-API-KEY");
-setHubScope("myhubid");
+const client = getClient({ accessToken: "<ACCESS TOKEN>" });
 
-const resp = await client.get("/v1/containers/{containerId}", {
-  params: { query: {}, path: { containerId: "abc123" } },
+const resp = await client.POST("/v1/functions/{containerId}/claim", {
+  params: {
+    path: {
+      containerId: "containerId",
+    },
+  },
 });
 
-console.log(test.data, test.error);
+console.log(resp.data);
 ```
 
 ### Overriding the Base URL
 
-In some cases it may be necessary to override the default URL of `https://api.cycle.io`. For example, if you are running a custom Cycle core, your API endpoint will be different than the default.
+In some cases it may be necessary to override the default URL of `http://env-scheduler`. For example, you may be accessing the scheduler from outside of the Environment.
 
 ```ts
-import {
-  client,
-  setAuthToken,
-  setHubScope,
-  setBaseUrl,
-} from "@cycleplatform/api-client-typescript";
+import { getClient } from "@cycleplatform/api-client-typescript";
 
-// Add this
-setBaseUrl("https://api.my-company.cycle.io");
+const client = getClient({ accessToken: "<ACCESS TOKEN>", baseUrl: "https://my-scheduler.test.com });
 
-setAuthToken("secret_MY-API-KEY");
-setHubScope("myhubid");
-
-const resp = await client.get("/v1/containers/{containerId}", {
-  params: { query: {}, path: { containerId: "abc123" } },
+const resp = await client.POST("/v1/functions/{containerId}/claim", {
+  params: {
+    path: {
+      containerId: "containerId",
+    },
+  },
 });
 
-console.log(test.data, test.error);
+console.log(resp.data);
 ```
 
 ## Development

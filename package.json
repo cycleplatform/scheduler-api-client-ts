@@ -1,5 +1,5 @@
 {
-  "name": "cycle-scheduler-api-client",
+  "name": "@cycleplatform/scheduler-api-client",
   "version": "1.0.0",
   "description": "Cycle scheduler service API client",
   "main": "index.js",
