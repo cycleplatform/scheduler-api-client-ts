@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Default",
+    "compilerOptions": {
+        "composite": false,
+        "declaration": true,
+        "outDir": "./dist",
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "ES2023",
+            "DOM"
+        ],
+        "inlineSources": false,
+        "isolatedModules": true,
+        "moduleResolution": "node",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "preserveWatchOutput": true,
+        "skipLibCheck": true,
+        "strict": true
+    },
+    "include": ["./src"],
+    "exclude": [
+        "node_modules"
+    ]
+}
