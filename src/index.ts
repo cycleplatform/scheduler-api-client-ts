@@ -4,11 +4,16 @@ import type { paths } from "./generated/types";
 export function getClient({
     accessToken,
     baseUrl = "http://env-scheduler",
+    fetch: customFetch,
 }: {
     baseUrl?: string;
     accessToken: string;
+    fetch?: typeof fetch;
 }) {
-    const client = createClient<paths>({ baseUrl, fetch });
+    const client = createClient<paths>({
+        baseUrl,
+        fetch: customFetch || fetch,
+    });
 
     const authMiddleware: Middleware = {
         async onRequest(req) {
