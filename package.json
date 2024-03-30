@@ -1,44 +1,45 @@
 {
-  "name": "@cycleplatform/scheduler-api-client",
-  "version": "0.1.0",
-  "description": "Cycle scheduler service API client",
-  "main": "./dist/index.umd.cjs",
-  "module": "./dist/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+    "name": "@cycleplatform/scheduler-api-client",
+    "version": "0.1.0",
+    "description": "Cycle scheduler service API client",
+    "main": "./dist/index.umd.cjs",
+    "module": "./dist/index.js",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.umd.cjs"
+        }
+    },
+    "types": "./src/index.ts",
+    "scripts": {
+        "test": "vitest",
+        "test:ts": "tsc --noEmit",
+        "build:spec": "(cd api-spec; npm run build:scheduler)",
+        "build:client": "npm run build:spec && npx openapi-typescript ./api-spec/dist/scheduler.yml --output ./src/generated/types.ts",
+        "build:lib": "npm run build:client && vite build",
+        "build:testcontainer": "docker build --platform linux/amd64 -t cycleplatform/scheduler-api-test -f ./tests/container/Dockerfile .",
+        "prepublishOnly": "npm run build:lib"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cycleplatform/scheduler-api-client-ts.git"
+    },
+    "keywords": [
+        "cycleplatform",
+        "api",
+        "client",
+        "scheduler"
+    ],
+    "author": "Petrichor, Inc.",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "openapi-fetch": "0.9.3"
+    },
+    "devDependencies": {
+        "msw": "2.2.13",
+        "openapi-typescript": "6.7.5",
+        "typescript": "5.4.3",
+        "vite": "5.2.7",
+        "vitest": "^0.31.4"
     }
-  },
-  "types": "./src/index.ts",
-  "scripts": {
-    "test": "vitest",
-    "test:ts": "tsc --noEmit",
-    "build:spec": "(cd api-spec; npm run build:scheduler)",
-    "build:client": "npm run build:spec && npx openapi-typescript ./api-spec/dist/scheduler.yml --output ./src/generated/types.ts",
-    "build:lib": "npm run build:client && vite build",
-    "prepublishOnly": "npm run build:lib"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cycleplatform/scheduler-api-client-ts.git"
-  },
-  "keywords": [
-    "cycleplatform",
-    "api",
-    "client",
-    "scheduler"
-  ],
-  "author": "Petrichor, Inc.",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "openapi-fetch": "0.9.3"
-  },
-  "devDependencies": {
-    "msw": "2.2.13",
-    "openapi-typescript": "6.7.5",
-    "typescript": "5.4.3",
-    "vite": "5.2.7",
-    "vitest": "^0.31.4"
-  }
 }

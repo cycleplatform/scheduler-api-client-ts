@@ -1,0 +1,24 @@
+{
+    "name": "@cycleplatform/scheduler-api-client-test",
+    "version": "0.1.0",
+    "description": "Cycle scheduler service API client test",
+    "scripts": {
+        "test": "vitest",
+        "start": "tsx src/index.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cycleplatform/scheduler-api-client-ts.git"
+    },
+    "keywords": [
+        "cycleplatform",
+        "api",
+        "client",
+        "scheduler"
+    ],
+    "author": "Petrichor, Inc.",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "tsx": "^4.7.1"
+    }
+}
