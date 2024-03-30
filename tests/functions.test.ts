@@ -10,6 +10,9 @@ test("test making basic request", async () => {
                 containerId: "containerId",
             },
         },
+        body: {
+            token: "customToken",
+        },
     });
 
     expect(resp.response.status).toBe(200);

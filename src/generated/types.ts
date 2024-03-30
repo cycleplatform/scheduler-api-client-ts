@@ -3,309 +3,153 @@
  * Do not make direct changes to the file.
  */
 
+
 export interface paths {
-    "/v1/functions/{containerId}/claim": {
-        /**
-         * Claim Instance
-         * @description Reserves an instance of the target function Container. The scheduler will release the claim back into the pool if the Instance is not claimed
-         * within ten seconds.
-         */
-        post: operations["claimInstance"];
-    };
-    "/v1/functions/{containerId}/spawn": {
-        /**
-         * Spawn Instance
-         * @description Spawns a previously claimed Instance.
-         */
-        post: operations["spawnInstance"];
-    };
-    "/v1/functions/{containerId}/release": {
-        /**
-         * Release Instance
-         * @description Releases a previously spawned Instance.
-         */
-        post: operations["releaseInstance"];
-    };
+  "/v1/functions/{containerId}/claim": {
+    /**
+     * Claim Instance
+     * @description Reserves an instance of the target function Container. The scheduler will release the claim back into the pool if the Instance is not claimed
+     * within ten seconds.
+     */
+    post: operations["claimInstance"];
+  };
+  "/v1/functions/{containerId}/spawn": {
+    /**
+     * Spawn Instance
+     * @description Spawns a previously claimed Instance.
+     */
+    post: operations["spawnInstance"];
+  };
+  "/v1/functions/{containerId}/release": {
+    /**
+     * Release Instance
+     * @description Releases a previously spawned Instance.
+     */
+    post: operations["releaseInstance"];
+  };
 }
 
 export type webhooks = Record<string, never>;
 
 export interface components {
-    schemas: {
-        /**
-         * @description A capability that a user or API key that represents what an API key or a user can do.
-         * @enum {string}
-         */
-        Capability:
-            | "api-keys-manage"
-            | "apionly-jobs-view"
-            | "apionly-notifications-listen"
-            | "autoscale-groups-manage"
-            | "autoscale-groups-view"
-            | "billing-credits-view"
-            | "billing-invoices-pay"
-            | "billing-invoices-view"
-            | "billing-methods-manage"
-            | "billing-services-manage"
-            | "billing-services-view"
-            | "containers-backups-manage"
-            | "containers-backups-view"
-            | "containers-console"
-            | "containers-deploy"
-            | "containers-instances-migrate"
-            | "containers-lock"
-            | "containers-ssh"
-            | "containers-manage"
-            | "containers-view"
-            | "containers-volumes-manage"
-            | "containers-volumes-view"
-            | "dns-certs-view"
-            | "dns-manage"
-            | "dns-view"
-            | "environments-deployments-manage"
-            | "environments-manage"
-            | "environments-scopedvariables-manage"
-            | "environments-scopedvariables-view"
-            | "environments-services-manage"
-            | "environments-view"
-            | "environments-vpn"
-            | "environments-vpn-manage"
-            | "hubs-delete"
-            | "hubs-integrations-manage"
-            | "hubs-integrations-view"
-            | "hubs-invites-manage"
-            | "hubs-invites-send"
-            | "hubs-members-manage"
-            | "hubs-members-view"
-            | "hubs-roles-manage"
-            | "hubs-roles-view"
-            | "hubs-usage-view"
-            | "hubs-update"
-            | "hubs-auditlog-view"
-            | "images-manage"
-            | "images-sources-manage"
-            | "images-sources-view"
-            | "images-view"
-            | "ips-manage"
-            | "servers-console"
-            | "servers-decommission"
-            | "servers-login"
-            | "servers-provision"
-            | "servers-manage"
-            | "servers-view"
-            | "monitor-manage"
-            | "monitor-view"
-            | "pipelines-manage"
-            | "pipelines-trigger"
-            | "pipelines-view"
-            | "sdn-networks-manage"
-            | "sdn-networks-view"
-            | "security-manage"
-            | "security-view"
-            | "stacks-builds-deploy"
-            | "stacks-builds-manage"
-            | "stacks-manage"
-            | "stacks-view";
-        /**
-         * Error
-         * @description The Cycle API uses standard HTTP response codes to indicate the success or failure of an API request. Codes in the `2xx` range indicate success. Codes in the `4xx` range indicate a request that failed due to input, and codes in the `5xx` range indicate an error on Cycle's part (rare).
-         * There are two types of error response objects. Errors with authentication are formatted to follow the OAuth spec, while all other errors follow the same convention. If you're using one of our API Libraries, they will standardize OAuth errors to fit the general convention.
-         */
-        Error: {
-            /**
-             * @description The HTTP response code.
-             * @enum {integer}
-             */
-            status?: 400 | 401 | 403 | 404 | 409 | 415 | 422 | 500;
-            /**
-             * @description A Cycle standard error code.
-             * @enum {string}
-             */
-            code?:
-                | "400.invalid_syntax"
-                | "401.auth_invalid"
-                | "401.auth_expired"
-                | "401.no_cookie"
-                | "401.unauthorized_application"
-                | "403.mismatch"
-                | "403.wrong_hub"
-                | "403.not_ready"
-                | "403.expired"
-                | "403.restricted_portal"
-                | "403.permissions"
-                | "403.wrong_scope"
-                | "403.invalid_ip"
-                | "403.invalid_state"
-                | "403.not_approved"
-                | "403.not_allowed"
-                | "403.platform_disabled"
-                | "403.2fa_required"
-                | "403.2fa_failed"
-                | "403.new_application_capabilities"
-                | "403.tier_restricted"
-                | "404.hub"
-                | "404.hub.invitation"
-                | "404.sdn_network"
-                | "404.environment"
-                | "404.environment.scoped-variable"
-                | "404.hub.api_key"
-                | "404.hub.provider"
-                | "404.hub.integration"
-                | "404.uri"
-                | "404.provider"
-                | "404.stack"
-                | "404.survey"
-                | "404.survey_response"
-                | "404.notification"
-                | "404.stack_build"
-                | "404.image"
-                | "404.image.source"
-                | "404.image.build_log"
-                | "404.job"
-                | "404.billing.order"
-                | "404.billing.service"
-                | "404.billing.credit"
-                | "404.billing.invoice"
-                | "404.billing.tier"
-                | "404.billing.support"
-                | "404.billing.payment_method"
-                | "404.billing.promo_code"
-                | "404.node"
-                | "404.infrastructure.location"
-                | "404.infrastructure.ips.pool"
-                | "404.infrastructure.provider"
-                | "404.infrastructure.server"
-                | "404.infrastructure.model"
-                | "404.account"
-                | "404.container"
-                | "404.container.backup"
-                | "404.vpn_account"
-                | "404.instance"
-                | "404.pipeline"
-                | "404.pipeline.run"
-                | "404.pipeline.key"
-                | "404.dns.zone"
-                | "404.dns.record"
-                | "404.cluster"
-                | "404.platform_build"
-                | "404.cycleos_build"
-                | "404.email_verification"
-                | "404.hub.membership"
-                | "404.announcement"
-                | "404.ha_service_session"
-                | "404.sales_lead"
-                | "409.duplicate_found"
-                | "415.invalid_content_type"
-                | "422.missing_argument"
-                | "422.invalid_argument"
-                | "422.invalid_input"
-                | "422.max_exceeded"
-                | "422.not_compatible"
-                | "422.already_exists"
-                | "429.rate_limiting"
-                | "500.database"
-                | "500.database_insert"
-                | "500.database_update"
-                | "500.database_remove"
-                | "500.jobd"
-                | "500.unknown"
-                | "500.dev"
-                | "500.email"
-                | "500.payment_gateway"
-                | "503.not_ready"
-                | "503.not_enabled"
-                | "503.dependency_not_enabled";
-            /** @description The main text describing the error. */
-            title?: string;
-            /** @description A more detailed description of the error. */
-            detail?: string;
-            /** @description A [JSON pointer](https://tools.ietf.org/html/rfc6901/) describing the source of an error. */
-            source?: string;
-            /** @description Additional entries on the error object to provide extra details. */
-            extra?: {
-                /** @description If the error occured because of a lack of permission (403), this will list the specific capability that the Role/API Key is missing. */
-                capability?: components["schemas"]["Capability"];
-            };
-        };
-        /**
-         * ErrorEnvelope
-         * @description An error response.
-         */
-        ErrorEnvelope: {
-            error: components["schemas"]["Error"];
-        };
-        /**
-         * ID
-         * Format: objectid
-         * @description A 24 character hex string used to identify a unique resource.
-         * @example 651586fca6078e98982dbd90
-         */
-        ID: string;
-        /** IPNet */
-        IPNet: {
-            /**
-             * @description The IP address.
-             * @example fd00::21:0:0:0
-             */
-            ip: string;
-            /**
-             * @description The CIDR notation, describing the range of IP addresses.
-             * @example fd00::21:0:0:0/96
-             */
-            cidr: string;
-        };
-        /**
-         * EnvironmentNetworkSummary
-         * @description Details about the Environment network this Instance is a member of.
-         */
-        EnvironmentNetworkSummary: {
-            id: components["schemas"]["ID"];
-            network_subnet: string;
-            subnet: string;
-            ipv6: components["schemas"]["IPNet"] | null;
-            legacy: {
-                host: number;
-                subnet: number;
-                ipv4: components["schemas"]["IPNet"] | null;
-            } | null;
-            mac_addr: string;
-            vxlan_tag: number;
-        };
-        /**
-         * ClaimedInstance
-         * @description Details about a claimed function Instance.
-         */
-        ClaimedInstance: {
-            /** @description The ID of the claimed Instance. */
-            instance_id: components["schemas"]["ID"];
-            environment: components["schemas"]["EnvironmentNetworkSummary"];
-            token: string;
-        };
-        /**
-         * SpawnedInstance
-         * @description Details about a spawned function Instance.
-         */
-        SpawnedInstance: {
-            /** @description The ID of the spawned Instance. */
-            instance_id: components["schemas"]["ID"];
-            /** @description The ID of the Server this Instance spawned on. */
-            server_id: components["schemas"]["ID"];
-            environment: components["schemas"]["EnvironmentNetworkSummary"];
-            token: string;
-        };
+  schemas: {
+    /**
+     * ClaimToken
+     * @description A custom token used for identifying and managing a function Instance claim. Can be any valid string, and must be used with spawning and releasing the Instance.
+     */
+    ClaimToken: string;
+    /**
+     * @description A capability that a user or API key that represents what an API key or a user can do.
+     * @enum {string}
+     */
+    Capability: "api-keys-manage" | "apionly-jobs-view" | "apionly-notifications-listen" | "autoscale-groups-manage" | "autoscale-groups-view" | "billing-credits-view" | "billing-invoices-pay" | "billing-invoices-view" | "billing-methods-manage" | "billing-services-manage" | "billing-services-view" | "containers-backups-manage" | "containers-backups-view" | "containers-console" | "containers-deploy" | "containers-instances-migrate" | "containers-lock" | "containers-ssh" | "containers-manage" | "containers-view" | "containers-volumes-manage" | "containers-volumes-view" | "dns-certs-view" | "dns-manage" | "dns-view" | "environments-deployments-manage" | "environments-manage" | "environments-scopedvariables-manage" | "environments-scopedvariables-view" | "environments-services-manage" | "environments-view" | "environments-vpn" | "environments-vpn-manage" | "hubs-delete" | "hubs-integrations-manage" | "hubs-integrations-view" | "hubs-invites-manage" | "hubs-invites-send" | "hubs-members-manage" | "hubs-members-view" | "hubs-roles-manage" | "hubs-roles-view" | "hubs-usage-view" | "hubs-update" | "hubs-auditlog-view" | "images-manage" | "images-sources-manage" | "images-sources-view" | "images-view" | "ips-manage" | "servers-console" | "servers-decommission" | "servers-login" | "servers-provision" | "servers-manage" | "servers-view" | "monitor-manage" | "monitor-view" | "pipelines-manage" | "pipelines-trigger" | "pipelines-view" | "sdn-networks-manage" | "sdn-networks-view" | "security-manage" | "security-view" | "stacks-builds-deploy" | "stacks-builds-manage" | "stacks-manage" | "stacks-view";
+    /**
+     * Error
+     * @description The Cycle API uses standard HTTP response codes to indicate the success or failure of an API request. Codes in the `2xx` range indicate success. Codes in the `4xx` range indicate a request that failed due to input, and codes in the `5xx` range indicate an error on Cycle's part (rare).
+     * There are two types of error response objects. Errors with authentication are formatted to follow the OAuth spec, while all other errors follow the same convention. If you're using one of our API Libraries, they will standardize OAuth errors to fit the general convention.
+     */
+    Error: {
+      /**
+       * @description The HTTP response code.
+       * @enum {integer}
+       */
+      status?: 400 | 401 | 403 | 404 | 409 | 415 | 422 | 500;
+      /**
+       * @description A Cycle standard error code.
+       * @enum {string}
+       */
+      code?: "400.invalid_syntax" | "401.auth_invalid" | "401.auth_expired" | "401.no_cookie" | "401.unauthorized_application" | "403.mismatch" | "403.wrong_hub" | "403.not_ready" | "403.expired" | "403.restricted_portal" | "403.permissions" | "403.wrong_scope" | "403.invalid_ip" | "403.invalid_state" | "403.not_approved" | "403.not_allowed" | "403.platform_disabled" | "403.2fa_required" | "403.2fa_failed" | "403.new_application_capabilities" | "403.tier_restricted" | "404.hub" | "404.hub.invitation" | "404.sdn_network" | "404.environment" | "404.environment.scoped-variable" | "404.hub.api_key" | "404.hub.provider" | "404.hub.integration" | "404.uri" | "404.provider" | "404.stack" | "404.survey" | "404.survey_response" | "404.notification" | "404.stack_build" | "404.image" | "404.image.source" | "404.image.build_log" | "404.job" | "404.billing.order" | "404.billing.service" | "404.billing.credit" | "404.billing.invoice" | "404.billing.tier" | "404.billing.support" | "404.billing.payment_method" | "404.billing.promo_code" | "404.node" | "404.infrastructure.location" | "404.infrastructure.ips.pool" | "404.infrastructure.provider" | "404.infrastructure.server" | "404.infrastructure.model" | "404.account" | "404.container" | "404.container.backup" | "404.vpn_account" | "404.instance" | "404.pipeline" | "404.pipeline.run" | "404.pipeline.key" | "404.dns.zone" | "404.dns.record" | "404.cluster" | "404.platform_build" | "404.cycleos_build" | "404.email_verification" | "404.hub.membership" | "404.announcement" | "404.ha_service_session" | "404.sales_lead" | "409.duplicate_found" | "415.invalid_content_type" | "422.missing_argument" | "422.invalid_argument" | "422.invalid_input" | "422.max_exceeded" | "422.not_compatible" | "422.already_exists" | "429.rate_limiting" | "500.database" | "500.database_insert" | "500.database_update" | "500.database_remove" | "500.jobd" | "500.unknown" | "500.dev" | "500.email" | "500.payment_gateway" | "503.not_ready" | "503.not_enabled" | "503.dependency_not_enabled";
+      /** @description The main text describing the error. */
+      title?: string;
+      /** @description A more detailed description of the error. */
+      detail?: string;
+      /** @description A [JSON pointer](https://tools.ietf.org/html/rfc6901/) describing the source of an error. */
+      source?: string;
+      /** @description Additional entries on the error object to provide extra details. */
+      extra?: {
+        /** @description If the error occured because of a lack of permission (403), this will list the specific capability that the Role/API Key is missing. */
+        capability?: components["schemas"]["Capability"];
+      };
     };
-    responses: {
-        /** @description General error response from the platform */
-        DefaultError: {
-            content: {
-                "application/json": components["schemas"]["ErrorEnvelope"];
-            };
-        };
+    /**
+     * ErrorEnvelope
+     * @description An error response.
+     */
+    ErrorEnvelope: {
+      error: components["schemas"]["Error"];
     };
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    /**
+     * ID
+     * Format: objectid
+     * @description A 24 character hex string used to identify a unique resource.
+     * @example 651586fca6078e98982dbd90
+     */
+    ID: string;
+    /** IPNet */
+    IPNet: {
+      /**
+       * @description The IP address.
+       * @example fd00::21:0:0:0
+       */
+      ip: string;
+      /**
+       * @description The CIDR notation, describing the range of IP addresses.
+       * @example fd00::21:0:0:0/96
+       */
+      cidr: string;
+    };
+    /**
+     * EnvironmentNetworkSummary
+     * @description Details about the Environment network this Instance is a member of.
+     */
+    EnvironmentNetworkSummary: {
+      id: components["schemas"]["ID"];
+      network_subnet: string;
+      subnet: string;
+      ipv6: components["schemas"]["IPNet"] | null;
+      legacy: ({
+        host: number;
+        subnet: number;
+        ipv4: components["schemas"]["IPNet"] | null;
+      }) | null;
+      mac_addr: string;
+      vxlan_tag: number;
+    };
+    /**
+     * ClaimedInstance
+     * @description Details about a claimed function Instance.
+     */
+    ClaimedInstance: {
+      /** @description The ID of the claimed Instance. */
+      instance_id: components["schemas"]["ID"];
+      environment: components["schemas"]["EnvironmentNetworkSummary"];
+      token: string;
+    };
+    /**
+     * SpawnedInstance
+     * @description Details about a spawned function Instance.
+     */
+    SpawnedInstance: {
+      /** @description The ID of the spawned Instance. */
+      instance_id: components["schemas"]["ID"];
+      /** @description The ID of the Server this Instance spawned on. */
+      server_id: components["schemas"]["ID"];
+      environment: components["schemas"]["EnvironmentNetworkSummary"];
+      token: string;
+    };
+  };
+  responses: {
+    /** @description General error response from the platform */
+    DefaultError: {
+      content: {
+        "application/json": components["schemas"]["ErrorEnvelope"];
+      };
+    };
+  };
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 
 export type $defs = Record<string, never>;
@@ -313,105 +157,105 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-    /**
-     * Claim Instance
-     * @description Reserves an instance of the target function Container. The scheduler will release the claim back into the pool if the Instance is not claimed
-     * within ten seconds.
-     */
-    claimInstance: {
-        parameters: {
-            path: {
-                /** @description The ID of the requested Container. */
-                containerId: string;
-            };
-        };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    /** @description A custom token used for identifying and managing a claim. Can be any valid string, and must be used with spawning and releasing the Instance. */
-                    token: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Returns details about the claimed Instance. */
-            200: {
-                content: {
-                    "application/json": {
-                        data?: components["schemas"]["ClaimedInstance"];
-                    };
-                };
-            };
-            default: components["responses"]["DefaultError"];
-        };
+
+  /**
+   * Claim Instance
+   * @description Reserves an instance of the target function Container. The scheduler will release the claim back into the pool if the Instance is not claimed
+   * within ten seconds.
+   */
+  claimInstance: {
+    parameters: {
+      path: {
+        /** @description The ID of the requested Container. */
+        containerId: string;
+      };
     };
-    /**
-     * Spawn Instance
-     * @description Spawns a previously claimed Instance.
-     */
-    spawnInstance: {
-        parameters: {
-            path: {
-                /** @description The ID of the requested Container. */
-                containerId: string;
-            };
+    requestBody: {
+      content: {
+        "application/json": {
+          token: components["schemas"]["ClaimToken"];
         };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    /** @description A custom token used for identifying and managing a claim. Should be the same token used when claiming the Instance. */
-                    token: string;
-                    instance_id: components["schemas"]["ID"];
-                    /** @description Arguments to pass to the Instance. */
-                    arguments?: string[];
-                    environment_variables?: {
-                        [key: string]: string;
-                    };
-                };
-            };
-        };
-        responses: {
-            /** @description Returns details about the spawned Instance. */
-            200: {
-                content: {
-                    "application/json": {
-                        data?: components["schemas"]["SpawnedInstance"];
-                    };
-                };
-            };
-            default: components["responses"]["DefaultError"];
-        };
+      };
     };
-    /**
-     * Release Instance
-     * @description Releases a previously spawned Instance.
-     */
-    releaseInstance: {
-        parameters: {
-            path: {
-                /** @description The ID of the requested Container. */
-                containerId: string;
-            };
+    responses: {
+      /** @description Returns details about the claimed Instance. */
+      200: {
+        content: {
+          "application/json": {
+            data: components["schemas"]["ClaimedInstance"];
+          };
         };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    /** @description A custom token used for identifying/managing a claim. Should be the same token used when claiming the Instance. */
-                    token: string;
-                    instance_id: components["schemas"]["ID"];
-                };
-            };
-        };
-        responses: {
-            /** @description Returns details about the released Instance. */
-            200: {
-                content: {
-                    "application/json": {
-                        data?: components["schemas"]["SpawnedInstance"];
-                    };
-                };
-            };
-            default: components["responses"]["DefaultError"];
-        };
+      };
+      default: components["responses"]["DefaultError"];
     };
+  };
+  /**
+   * Spawn Instance
+   * @description Spawns a previously claimed Instance.
+   */
+  spawnInstance: {
+    parameters: {
+      path: {
+        /** @description The ID of the requested Container. */
+        containerId: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          /** @description The claim token previously used to claim the Instance. */
+          token: components["schemas"]["ClaimToken"];
+          instance_id: components["schemas"]["ID"];
+          /** @description Arguments to pass to the Instance. */
+          arguments?: string[];
+          environment_variables?: {
+            [key: string]: string;
+          };
+        };
+      };
+    };
+    responses: {
+      /** @description Returns details about the spawned Instance. */
+      200: {
+        content: {
+          "application/json": {
+            data: components["schemas"]["SpawnedInstance"];
+          };
+        };
+      };
+      default: components["responses"]["DefaultError"];
+    };
+  };
+  /**
+   * Release Instance
+   * @description Releases a previously spawned Instance.
+   */
+  releaseInstance: {
+    parameters: {
+      path: {
+        /** @description The ID of the requested Container. */
+        containerId: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          /** @description The claim token previously used to claim the Instance. */
+          token: components["schemas"]["ClaimToken"];
+          instance_id: components["schemas"]["ID"];
+        };
+      };
+    };
+    responses: {
+      /** @description Returns details about the released Instance. */
+      200: {
+        content: {
+          "application/json": {
+            data: components["schemas"]["SpawnedInstance"];
+          };
+        };
+      };
+      default: components["responses"]["DefaultError"];
+    };
+  };
 }

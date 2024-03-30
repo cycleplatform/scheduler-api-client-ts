@@ -32,8 +32,9 @@ async function claim(containerId: string) {
         throw resp.error;
     }
 
-    const instanceId = resp.data.data?.instance_id || "";
-    const token = resp.data.data?.token || "";
+    const {
+        data: { instance_id: instanceId, token },
+    } = resp.data;
 
     console.log(
         `[claim: ${token}] claimed instance cntr:${containerId}/instance:${instanceId}`
@@ -65,8 +66,12 @@ async function spawn(containerId: string, instanceId: string) {
         throw resp.error;
     }
 
+    const {
+        data: { instance_id: iid },
+    } = resp.data;
+
     console.log(
-        `[claim: ${claimToken}]: spawned instance cntr:${containerId}/instance:${resp.data.data?.instance_id}`
+        `[claim: ${claimToken}]: spawned instance cntr:${containerId}/instance:${iid}`
     );
 }
 
@@ -93,8 +98,12 @@ async function release(containerId: string, instanceId: string) {
         throw resp.error;
     }
 
+    const {
+        data: { instance_id: iid },
+    } = resp.data;
+
     console.log(
-        `[claim: ${claimToken}]: released instance cntr:${containerId}/instance:${resp.data.data?.instance_id}`
+        `[claim: ${claimToken}]: released instance cntr:${containerId}/instance:${iid}`
     );
 }
 
