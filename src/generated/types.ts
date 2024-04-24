@@ -34,11 +34,6 @@ export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     /**
-     * ClaimToken
-     * @description A custom token used for identifying and managing a function Instance claim. Can be any valid string, and must be used with spawning and releasing the Instance.
-     */
-    ClaimToken: string;
-    /**
      * @description A capability that a user or API key that represents what an API key or a user can do.
      * @enum {string}
      */
@@ -77,6 +72,7 @@ export interface components {
      */
     ErrorEnvelope: {
       error: components["schemas"]["Error"];
+      data: null;
     };
     /**
      * ID
@@ -126,6 +122,11 @@ export interface components {
       token: string;
     };
     /**
+     * ClaimToken
+     * @description A custom token used for identifying and managing a function Instance claim. Can be any valid string, and must be used with spawning and releasing the Instance.
+     */
+    ClaimToken: string;
+    /**
      * SpawnedInstance
      * @description Details about a spawned function Instance.
      */
@@ -173,7 +174,8 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": {
-          token: components["schemas"]["ClaimToken"];
+          /** @description A custom token used for identifying and managing a claim. Can be any valid string, and must be used with spawning and releasing the Instance. */
+          token: string;
         };
       };
     };
@@ -206,11 +208,13 @@ export interface operations {
           /** @description The claim token previously used to claim the Instance. */
           token: components["schemas"]["ClaimToken"];
           instance_id: components["schemas"]["ID"];
-          /** @description Arguments to pass to the Instance. */
-          arguments?: string[];
-          environment_variables?: {
-            [key: string]: string;
-          };
+          /** @description Optional variables that affect the runtime of the container. */
+          runtime_variables?: ({
+            /** @description Environment variables to inject into the container. */
+            environment_variables?: {
+              [key: string]: string;
+            } | null;
+          }) | null;
         };
       };
     };
