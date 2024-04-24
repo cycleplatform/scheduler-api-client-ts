@@ -1,6 +1,6 @@
 {
     "name": "@cycleplatform/scheduler-api-client-test",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Cycle scheduler service API client test",
     "scripts": {
         "test": "vitest",
