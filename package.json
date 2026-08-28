@@ -13,7 +13,7 @@
                 "default": "./dist/index.js"
             },
             "require": {
-                "types": "./dist/index.d.ts",
+                "types": "./dist/index.d.cts",
                 "default": "./dist/index.cjs"
             }
         }
@@ -25,6 +25,7 @@
     "scripts": {
         "test": "vitest run --passWithNoTests",
         "test:ts": "tsc --noEmit",
+        "test:pack": "npm run build:lib && attw --pack .",
         "generate:types": "openapi-typescript ./api-spec/scheduler/api.yml --output ./src/generated/types.ts",
         "build:lib": "npm run generate:types && vite build",
         "prepare": "vite build",
@@ -43,15 +44,16 @@
     "author": "Petrichor, Inc.",
     "license": "Apache-2.0",
     "dependencies": {
-        "openapi-fetch": "0.17.0",
-        "undici": "^8.5.0"
+        "openapi-fetch": "0.17.0"
     },
     "devDependencies": {
+        "@arethetypeswrong/cli": "0.18.5",
+        "@microsoft/api-extractor": "7.59.0",
         "msw": "2.14.6",
         "openapi-typescript": "7.13.0",
-        "vite-plugin-dts": "5.0.2",
         "typescript": "5.9.3",
         "vite": "8.0.16",
+        "vite-plugin-dts": "5.0.2",
         "vitest": "4.1.9"
     }
 }

@@ -1,3 +1,4 @@
+import { copyFileSync } from "fs";
 import { builtinModules } from "module";
 import { resolve } from "path";
 import dts from "vite-plugin-dts";
@@ -15,6 +16,13 @@ export default defineConfig({
         dts({
             include: ["src"],
             exclude: ["tests", "**/*.test.ts"],
+            bundleTypes: true,
+            afterBuild: () => {
+                copyFileSync(
+                    resolve(__dirname, "./dist/index.d.ts"),
+                    resolve(__dirname, "./dist/index.d.cts"),
+                );
+            },
         }),
     ],
     test: {

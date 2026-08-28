@@ -27,3 +27,8 @@ jobs:
 
             - name: Build library
               run: npm run build:lib
+
+            # Catches published type resolution breakage - a client whose types
+            # do not resolve degrades to `any` for consumers instead of failing.
+            - name: Check published types
+              run: npm run test:pack
