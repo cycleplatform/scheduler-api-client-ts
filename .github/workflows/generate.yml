@@ -1,0 +1,57 @@
+# Automatically fetches the latest API spec (and commits the submodule update) and generates a new client
+name: Generate Client
+
+on:
+    workflow_dispatch:
+        inputs:
+            commit:
+                description: "API Spec Commit Hash (Latest If Empty)"
+
+jobs:
+    generate-and-tag:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.API_SPEC_PAT }}
+                  submodules: recursive
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 25
+                  cache: npm
+
+            - name: Update spec submodule to latest
+              if: ${{ !github.event.inputs.commit }}
+              run: git submodule update --remote --recursive
+
+            - name: Checkout specific spec commit
+              if: ${{ github.event.inputs.commit }}
+              run: |
+                  cd api-spec
+                  git fetch origin
+                  git checkout ${{ github.event.inputs.commit }}
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Generate client
+              run: npm run generate:types
+
+            - name: Commit regenerated client
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git add -A
+                  git commit -m "Auto-generate client from latest API spec" || echo "No changes to commit"
+                  git push
+
+            - name: Automated version bump
+              uses: phips28/gh-action-bump-version@master
+              env:
+                  GITHUB_TOKEN: ${{ secrets.API_SPEC_PAT }}
+              with:
+                  tag-prefix: "v"

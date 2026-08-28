@@ -16,9 +16,9 @@ export function getClient({
     });
 
     const authMiddleware: Middleware = {
-        async onRequest(req) {
-            req.headers.set("X-CYCLE-ACCESS-KEY", accessToken);
-            return req;
+        async onRequest({ request }) {
+            request.headers.set("X-CYCLE-ACCESS-KEY", accessToken);
+            return request;
         },
     };
 

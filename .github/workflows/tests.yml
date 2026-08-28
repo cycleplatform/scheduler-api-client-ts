@@ -1,0 +1,32 @@
+name: Run Tests
+
+on:
+    - push
+    - workflow_dispatch
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 25
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run Tests
+              run: npm run test
+
+            - name: Build library
+              run: npm run build:lib
+
+            - name: Socket smoke test
+              run: node test/smoke.mjs
