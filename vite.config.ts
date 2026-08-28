@@ -1,30 +1,42 @@
+import { copyFileSync } from "fs";
+import { builtinModules } from "module";
 import { resolve } from "path";
+import dts from "vite-plugin-dts";
 import { configDefaults, defineConfig } from "vitest/config";
+import pkg from "./package.json" with { type: "json" };
+
+const external = [
+    ...Object.keys(pkg.dependencies ?? {}),
+    ...builtinModules,
+    ...builtinModules.map((m) => `node:${m}`),
+];
 
 export default defineConfig({
-  test: {
-    exclude: [...configDefaults.exclude, "packages/template/*"],
-    setupFiles: ["./tests/setup.ts"],
-  },
-  build: {
-    lib: {
-      // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, "./src/index.ts"),
-      name: "Cycle Scheduler API Client",
-      // the proper extensions will be added
-      fileName: "index",
+    plugins: [
+        dts({
+            include: ["src"],
+            exclude: ["tests", "**/*.test.ts"],
+            bundleTypes: true,
+            afterBuild: () => {
+                copyFileSync(
+                    resolve(__dirname, "./dist/index.d.ts"),
+                    resolve(__dirname, "./dist/index.d.cts"),
+                );
+            },
+        }),
+    ],
+    test: {
+        exclude: [...configDefaults.exclude, "packages/template/*"],
+        setupFiles: ["./tests/setup.ts"],
     },
-    rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
-      //   external: ["vue"],
-      //   output: {
-      //     // Provide global variables to use in the UMD build
-      //     // for externalized deps
-      //     globals: {
-      //       vue: "Vue",
-      //     },
-      //   },
+    build: {
+        lib: {
+            entry: resolve(__dirname, "./src/index.ts"),
+            fileName: "index",
+            formats: ["es", "cjs"],
+        },
+        rollupOptions: {
+            external,
+        },
     },
-  },
 });

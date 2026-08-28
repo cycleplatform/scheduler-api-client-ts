@@ -1,23 +1,34 @@
 {
     "name": "@cycleplatform/scheduler-api-client",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Cycle scheduler service API client",
-    "main": "./dist/index.umd.cjs",
+    "main": "./dist/index.cjs",
     "module": "./dist/index.js",
+    "type": "module",
+    "sideEffects": false,
     "exports": {
         ".": {
-            "import": "./dist/index.js",
-            "require": "./dist/index.umd.cjs"
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.js"
+            },
+            "require": {
+                "types": "./dist/index.d.cts",
+                "default": "./dist/index.cjs"
+            }
         }
     },
-    "types": "./src/index.ts",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
     "scripts": {
-        "test": "vitest",
+        "test": "vitest run --passWithNoTests",
         "test:ts": "tsc --noEmit",
-        "build:spec": "(cd api-spec; npm run build:scheduler)",
-        "build:client": "npm run build:spec && npx openapi-typescript ./api-spec/dist/scheduler.yml --output ./src/generated/types.ts",
-        "build:lib": "npm run build:client && vite build",
-        "build:testcontainer": "docker build --platform linux/amd64 -t cycleplatform/scheduler-api-test -f ./tests/container/Dockerfile .",
+        "test:pack": "npm run build:lib && attw --pack .",
+        "generate:types": "openapi-typescript ./api-spec/scheduler/api.yml --output ./src/generated/types.ts",
+        "build:lib": "npm run generate:types && vite build",
+        "prepare": "vite build",
         "prepublishOnly": "npm run build:lib"
     },
     "repository": {
@@ -33,13 +44,16 @@
     "author": "Petrichor, Inc.",
     "license": "Apache-2.0",
     "dependencies": {
-        "openapi-fetch": "0.9.3"
+        "openapi-fetch": "0.17.0"
     },
     "devDependencies": {
-        "msw": "2.2.13",
-        "openapi-typescript": "6.7.5",
-        "typescript": "5.4.3",
-        "vite": "5.2.7",
-        "vitest": "^0.31.4"
+        "@arethetypeswrong/cli": "0.18.5",
+        "@microsoft/api-extractor": "7.59.0",
+        "msw": "2.14.6",
+        "openapi-typescript": "7.13.0",
+        "typescript": "5.9.3",
+        "vite": "8.0.16",
+        "vite-plugin-dts": "5.0.2",
+        "vitest": "4.1.9"
     }
 }
