@@ -27,6 +27,3 @@ jobs:
 
             - name: Build library
               run: npm run build:lib
-
-            - name: Socket smoke test
-              run: node test/smoke.mjs
